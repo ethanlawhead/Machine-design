@@ -1,1 +1,5 @@
 bend_mom = int(input('what is the bending moment'))
+torque = int(input('what is the torque'))
+diameter = int(input('what is the diameter'))
+stress_con = int()
+criteria = input('what criteria? (g, vm, c, cig)')
