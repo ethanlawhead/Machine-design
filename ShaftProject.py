@@ -1,0 +1,1 @@
+bend_mom = int(input('what is the bending moment'))
