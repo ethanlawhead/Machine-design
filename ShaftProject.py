@@ -35,6 +35,8 @@ print(kb)
 #     return se
 
 
+kt = 1.7
+kts = 1.5
 
 #goodman criteria 
 def goodman(d,kf,kfs,ma,tm,se, sult):
