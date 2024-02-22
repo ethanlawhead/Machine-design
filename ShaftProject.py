@@ -74,5 +74,9 @@ def von_mises(kf,kfs,sy,ma,tm,d):
 
 #von_mises(kf,kfs,sy,bend_mom,torque,diameter)
     
-def conservative(kf,bending,kfs,torsion):
+def conservative(sigmaM,sigmaA,sy):
 
+    safety = sy/(sigmaM + sigmaA)
+    print(safety)
+
+#conservative(sigmam_prime,sigmaa_prime,sy)
