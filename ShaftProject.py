@@ -2,6 +2,7 @@ import math
 # 1030 HR Steel info
 sultmet = 470_000_000
 sulteng = 68
+sy = 37_500
 
 seprime_met = sultmet/2
 seprime_eng = sulteng/2
@@ -13,8 +14,7 @@ root_a_torsion = 0.190-(2.51*10**(-3)*sulteng)+(1.35*10**(-5)*sulteng**2)-(2.67*
 
 bend_mom = int(input('what is the bending moment'))
 torque = int(input('what is the torque'))
-diameter = int(input('what is the diameter'))
-stress_con = int()
+diameter = float(input('what is the diameter'))
 criteria = input('what criteria? (g, vm, c, cig)')
 kt_criteria = input('what is stress concentration?')
 
@@ -52,30 +52,27 @@ if diameter > 2:
     kb = 0.91*(diameter**(-.157))
 
 
-
-# def se(se_prime, ka = 1,kb = 1,kc = 1,kd = 1,ke = 1)
-#     kb =
-#     kc =
-#     kd =
-#     ke =
-#     se = ka*kb*kc*kd*ke*se_prime
-#     return se
-
 se = seprime_eng * ka * kb
-print(ka,kb,se)
-print(kf,kfs)
-
-
+sigmaa_prime = math.sqrt((((32*kf*bend_mom)/(math.pi*(diameter**3)))**2))
+sigmam_prime = math.sqrt(3*(((16*kfs*torque)/(math.pi*(diameter**3)))**2))
 #goodman criteria 
 def goodman(d,kf,kfs,ma,tm,se, sult):
 
     # finding A
     a = math.sqrt((4*((kf*ma)**2)))
-    print(a)
     #finding B
     b = math.sqrt((3*((kfs*tm)**2)))
-    print(b)
     safety = ((math.pi*(d**3))/16) * (((a/(se*1000))+(b/(sult*1000)))**(-1))
     print(safety)
     return safety
-goodman(diameter,kf,kfs,bend_mom,torque,se,sulteng)
+#goodman(diameter,kf,kfs,bend_mom,torque,se,sulteng)
+
+def von_mises(kf,kfs,sy,ma,tm,d):
+    sigma_max = math.sqrt((((32*kf*ma)/(math.pi*(d**3)))**2)+(3*(((16*kfs*tm)/(math.pi*(d**3)))**2)))
+    safety = (sy/sigma_max)
+    print(safety)
+
+#von_mises(kf,kfs,sy,bend_mom,torque,diameter)
+    
+def conservative(kf,bending,kfs,torsion):
+
