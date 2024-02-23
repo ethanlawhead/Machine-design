@@ -13,9 +13,6 @@ seprime_eng = sulteng/2
 
 root_a_bending = 0.246-(3.08*10**(-3)*sulteng)+(1.51*10**(-5)*sulteng**2)-(2.67*10**(-8)*sulteng**3)
 root_a_torsion = 0.190-(2.51*10**(-3)*sulteng)+(1.35*10**(-5)*sulteng**2)-(2.67*10**(-8)*sulteng**3)
-
-
-
     
 #function to find kf and kfs
 def stress_concentration(diameter,kt_criteria):
@@ -45,7 +42,6 @@ def stress_concentration(diameter,kt_criteria):
     kfs = 1 + ((kts - 1)/(1 + (root_a_torsion/math.sqrt(r))))
     
     return kf,kfs
-
 
 #function to find endurance strength
 def se(diameter,sult,seprime):
@@ -102,19 +98,22 @@ def cig(sy,ma,tm,sult,kt_criteria,seprime):
     good_safe = 0
     conserve_safe = 0
 
+    #find diameter for goodman criteria
     while good_safe < 1.5:
         good_diameter += 0.001
         kf = stress_concentration(good_diameter,kt_criteria)[0]
         kfs = stress_concentration(good_diameter,kt_criteria)[1]
 
         good_safe = goodman(good_diameter,kf,kfs,ma,tm,sult,seprime)
-
+    
+    #find diameter for conservative approx
     while conserve_safe < 1.5:
         conserve_diameter += 0.001
         sigmaA = sigma_prime(conserve_diameter,ma,tm,kt_criteria)[0]
         sigmaM = sigma_prime(conserve_diameter,ma,tm,kt_criteria)[1]
         conserve_safe =conservative(sigmaA,sigmaM,sy)
 
+    #comparing found diameters and returning biggest one found
     if conserve_diameter > good_diameter:
         return conserve_diameter
     else:
@@ -125,12 +124,15 @@ run = True
 
 #while loop for solving problems without having to start program over
 while run == True:
+    
+    #inputs from problem
     bend_mom = int(input('what is the bending moment'))
     torque = int(input('what is the torque'))
 
     criteria = input('what criteria? (g, vm, c, cig)')
     kt_criteria= input('what is stress concentration?')
     
+
     if criteria != 'cig':
         diameter = float(input('what is the diameter'))
     
@@ -144,6 +146,7 @@ while run == True:
     elif criteria == 'cig':
         print(cig(sy,bend_mom,torque,sulteng,kt_criteria,seprime_eng))
     
+    #getting out of while loop or continuing
     runagain = input('would you like to solve another? (y/n)')
 
     if runagain =='n':
