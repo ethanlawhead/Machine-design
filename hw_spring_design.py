@@ -1,5 +1,5 @@
 import math
-d = .09
+d = .085
 D = 1-d-.05
 
 
